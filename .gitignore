@@ -14,3 +14,4 @@ _site/
 .vscode/
 dist
 .cache
+.env

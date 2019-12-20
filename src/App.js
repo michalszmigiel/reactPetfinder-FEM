@@ -3,33 +3,16 @@ import { render } from "react-dom";
 import Pet from "./Pet";
 
 class App extends React.Component {
-  handleTitleClick() {
-    alert("you clicked the title");
-  }
   render() {
-    return React.createElement("div", {}, [
-      React.createElement(
-        "h1",
-        { onClick: this.handleTitleClick },
-        "Petfinder"
-      ),
-      React.createElement(Pet, {
-        name: "Juniś",
-        animal: "dog",
-        breed: "pintcher"
-      }),
-      React.createElement(Pet, {
-        name: "Pepper",
-        animal: "bird",
-        breed: "Cockatiel"
-      }),
-      React.createElement(Pet, {
-        name: "Doink",
-        animal: "cat",
-        breed: "mixed"
-      })
-    ]);
+    return (
+      <div>
+        <h1>Petfinder</h1>
+        <Pet name="Juniś" animal="Dog" breed="pintcher" />
+        <Pet name="Doink" animal="Cat" breed="mixed" />
+        <Pet name="Pepper" animal="Bird" breed="cockatiel" />
+      </div>
+    );
   }
 }
 
-render(React.createElement(App), document.getElementById("root"));
+render(<App />, document.getElementById("root"));

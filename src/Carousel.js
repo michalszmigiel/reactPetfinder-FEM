@@ -21,14 +21,13 @@ class Carousel extends React.Component {
   render() {
     const { photos, active } = this.state;
 
-    let hero = "http://placecorgi.com/300/300";
-    if (photos[active] && photos[active].value) {
-      hero = photos[active].value;
-    }
+    const imgSource = photos[active]
+      ? photos[active].value
+      : "http://placecorgi.com/300/300";
 
     return (
       <div className="carousel">
-        <img src={hero} alt="animal" />
+        <img src={imgSource} alt="animal" />
         <div className="carousel-smaller">
           {photos.map((photo, index) => (
             /* eslint-disable-next-line */

@@ -1,26 +1,42 @@
 import React from "react";
 import Pet from "./Pet";
-import pf from "petfinder-client";
+import pf, { Pet as PetType } from "petfinder-client";
+import { RouteComponentProps } from "@reach/router";
 import SearchBox from "./SearchBox";
 import { Consumer } from "./SearchContext";
+
+if (!process.env.API_KEY || !process.env.API_SECRET) {
+  throw new Error("no API keys! ");
+}
 
 const petfinder = pf({
   key: process.env.API_KEY,
   secret: process.env.API_SECRET
 });
 
-class Results extends React.Component {
-  constructor(props) {
+interface Props {
+  searchParams: {
+    location: string;
+    animal: string;
+    breed: string;
+  };
+}
+interface State {
+  pets: PetType[];
+}
+
+class Results extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
       pets: []
     };
   }
-  componentDidMount() {
+  public componentDidMount() {
     this.search();
   }
-  search = () => {
+  public search = () => {
     petfinder.pet
       .find({
         output: "full",
@@ -29,7 +45,7 @@ class Results extends React.Component {
         breed: this.props.searchParams.breed
       })
       .then(data => {
-        let pets;
+        let pets: PetType[];
         if (data.petfinder.pets && data.petfinder.pets.pet) {
           if (Array.isArray(data.petfinder.pets.pet)) {
             pets = data.petfinder.pets.pet;
@@ -45,7 +61,7 @@ class Results extends React.Component {
         });
       });
   };
-  render() {
+  public render() {
     return (
       <div className="search">
         <SearchBox search={this.search} />
@@ -73,7 +89,7 @@ class Results extends React.Component {
   }
 }
 
-export default function ResultsWithContext(props) {
+export default function ResultsWithContext(props: RouteComponentProps) {
   return (
     <Consumer>
       {context => <Results {...props} searchParams={context} />}
